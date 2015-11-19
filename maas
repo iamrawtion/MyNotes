@@ -1,0 +1,48 @@
+Burn IMage to USB or DIsk (USB used for ->startup disk creator)
+booted with 25 GB disk and 4 gb ram
+booting options
+select MAAS as a server in the boot menu
+Define hostname
+keyboard US
+Location India
+Network Interface selected one out of two (Realtek selected)
+Set up users and Passwords for non adminitrative privileges
+full name
+next username
+choose a password
+reenter password
+encrypt ur home directory -> no
+timezone kolkatta yes
+partition screen
+Manual partition
+selected free space and 
+Automatically partition the free space -> created swap of 4.2 GB and whole / ext4
+finish partitioning  and write changes to disk
+confirm changes made ->yes
+http proxy information -> blaNK continue
+Updates -> No automatic updates
+Download Language Support -> Yes
+maas server configured 10.10.10.125
+sudo dpkg-reconfigure maas-region-controller
+install grub loader
+installation complete
+reboot
+
+
+login
+sudo maas createsuperuser
+leave blank to create root user
+email address
+password -> reverse
+su created
+
+login to web interface with the root user created above
+add node
+
+
+sudo apt-get install maas-dhcp maas-dns
+Import the boot images
+MAAS will check for and download new Ubuntu images once a week. However, you'll need to download them manually the first time:
+$ sudo maas-import-pxe-files
+
+00 22 68 15 37 D3
