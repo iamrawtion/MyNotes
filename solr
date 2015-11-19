@@ -1,0 +1,18 @@
+Solr
+It is a search engine platform from Apache.
+
+Features:
+- Full-Text Search
+- Hit Highlighting
+- Faceted Search
+- Dynamic Clustering
+- Database Integration
+- Rich Document Handling
+- Provide Distributed search
+- Index Replication
+- Highly Scalable
+Solr 4 has NoSQL features too.
+
+Solr is written in Java and runs in a servlet container like Tomcat or Jetty. It uses Java serach library 'Lucene' for full-text search and indexing. It has REST like  HTTP/XML and JSON APIs that make it usable from most programming languages.
+
+You put documents into it over HTTP via JSON, XML, CSV or binary and you can query it using HTTP GET and receive JSON, XML, CSV or binary results
