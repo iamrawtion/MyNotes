@@ -1,0 +1,52 @@
+Went to
+http://maas.ubuntu.com/docs/juju-quick-start.html
+Created 
+~/.juju/environments.yaml
+Added these details to the above file
+juju: environments
+environments:
+  maas:
+    type: maas
+    maas-server: 'http://localhost:5240'
+    maas-oauth: '${maas-api-key}'
+    admin-secret: 'nothing'
+
+Got error     default-series: missing
+
+Added this line to the above file
+    default-series: 'precise'
+Error Gone
+
+juju status
+New error
+Juju INFO Connecting to environment... Unhandled error in Deferred: Unhandled Error
+
+INvestigated, result:
+Juju packages needs to be installed from ppa:juju/pkg
+
+Went to
+https://juju.ubuntu.com/docs/
+removed existing juju
+sudo apt-get update
+            sudo apt-get install juju-core (error no package)
+
+
+sudo add-apt-repository ppa:juju/devel
+            sudo apt-get update && sudo apt-get install juju-core
+
+Configuring Juju
+juju generate-config -w	
+previously written environment.yml was moved and the changes were added to the new yml file.
+
+error: environment has no access-key or secret-key
+
+changed default: amazon to default: maas
+juju bootsrap
+error:no tools
+sudo juju -v sync-tools
+
+roshan@ubuntu-cloud:~$ sudo juju bootstrap
+error: cannot start bootstrap instance: cannot run instances: gomaasapi: got error back from server: 409 CONFLICT
+
+CONFLICT from maas means that it doesn't have any nodes available for juju to acquire (juju bootstrap needs to boot a node).
+It's not the best error unfortunately, juju needs fixing to show all the text. You need the server edition of 12.04
