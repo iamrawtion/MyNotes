@@ -1,0 +1,99 @@
+What is Ant?
+Java based build tool. The build fiels are written in XML and hence take advantage of open standard portability and easy to undersand nature of XML. Ant is also used to automate build and deployment steps.
+
+Why do we need a build tool:
+Most of time of a developer is spent in doing the following things:
+- compilation of the code.
+- Package the binaries
+- Deploy the binaries to the test server
+- Test your change
+- Copy code from one location to another
+
+To take the burden away of spending so much time in build and compilation automation is required. Apache Ant is an Operating system build and deployment tool that can be excuted from command line.
+
+Little about Ant:
+ANT stands for Another Neat Tool.
+Created by James Davidson
+It was originally built for Tomcat and was distributed as a part of Tomcat distribution
+Born out of complexity associated with a make tool
+Promoted as an independent projec in 2000
+Nant is Ant for .Net
+
+Features of Ant:
+Most complete Java build and automation tool available.
+Platform neutral and can handle platform specific properties such as file separators, modify modified time of a file using touch command etc.
+Scripts are written in XML
+Good to automate complicated repetitive tasks
+Ant comes with big list of pre-defined tasks
+Provides an interface to develop custom tasks
+It can be easily invoked and can also be integrated with free and commercial IDEs
+
+Installation of ant:
+sudo apt-get install ant
+export ANT_HOME=/usr/bin/ant
+Install Eclipse
+
+Ant Build Files:
+Ant's build file needs to be present in the project's base directory. All build files need the project element and atleast one target element. THe project element has 3 attributes:
+name: The name of the project. This is opational
+default: TEh default target for the build script. The project may contain any number of targets. This attribute specifies which target to be considered a default one. This is manadatory
+basedir: The directory , or the root folder of the project. This is optional
+
+A target is the collection of tasks that you want to run as one unit. In the example below we have a simple target to provide an information to the user. Target can have dependencies on other targets. For example a deploy target may have a dependency on the package target, and a package target may have dependency on compile target and so on. Dependencies are denoted using depends attribute, e.g.
+<target name="deploy" depends="pacakge">
+  ....
+</target>
+<target name="pacakge" depends="clean,compile">
+  ....
+</target>
+<target name="clean" >
+  ....
+</target>
+<target name="compile" >
+  ....
+</target>
+
+Teh target element has the following attributes
+name: The name of hte target. (Required)
+depends: COmma seperated list of target that this target depends on. (Optional)
+description: A short description of target. (Optional)
+if: Allows execution of a target based on truth value of a condition
+unless: Adds the target to the dependecy list of Specified Extension Point. An Extension Point is similar to a target but it does not have any tasks.(Optional)
+
+Sample build file:
+<?xml version="1.0"?>
+   <project name="Hello World Project" default="info">
+   <target name="info">
+      <echo>Hello World - Welcome to Apache Ant!</echo>
+   </target>
+</project>
+
+The echo task in the above example is trivial task that prints a message. Here it prints Hello World Project
+
+To run the above build xml file just type "ant info" or "ant" in the directory where the build.xml is present and the execution should start.
+
+Ant Property Task:
+Ant builds are written in XML so you cant declare variables. It could have been easier if it could support variables like project name etc. Ant uses property element that allows you to specify properties. This allows the properties to be changed from one build to another. from one environment to another. By default ant provides following pre-defined default properties.
+ant.files : The full location of the build files
+ant.version : The version of Apache Ant Installation
+basedir : The basedir of the build as specified in the basedir attribute of the project element
+ant.java.version : The version of java that is used by Ant
+ant.project.name: Teh name of the project as specief in the attribute name in the project element.
+ant.project.default-target: The default target of the current project
+ant.project.invoked-targets: Comma seperated list of targets that were invoked in the current project
+ant.core.lib: The full location of Ant jar file
+ant.home: THe home directory of Ant Installation
+ant.library.dir: The home directory of Ant library files, typically ANT_HOME/lib folder
+
+Ant also makes the system properties e.g files.seperator available to the build file. In addition to the above the user can also define additional properties. The example below shows how to define a property called sitename
+<?xml version="1.0"?>
+<project name="Hello World Project" default="info">
+  <property name="sitename" value="www.tutorialspoint.com"/>
+   <target name="info">
+  <echo>Apache Ant version is ${ant.versionon} - You are 
+  at ${sitename} </echo>
+   </target>
+</project>
+
+Ant Property Files:
+
