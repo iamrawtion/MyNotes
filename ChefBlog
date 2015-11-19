@@ -1,0 +1,276 @@
+Starting with Chef:
+
+Chef Jargons : 
+
+Three primary entities:
+1.Chef-WorkStation : System from where the configuration management professional / devops / sys admin will be working.
+2.Chef-Server : System where all the infrastructure will be stored as a code.
+3. Nodes : Servers in your infrastructure that will be managed by chef, They may represent a physical server or a virtual server. They may represent hardware you own or multiple compute instances in a pulic or a private cloud. Each node will belong to one organization and and other organization may not have access to it. Each node will belong to one environment. Either in stagin or Production etc. Each node will have zero or more roles.
+An application called chef-client run on each of the node. The chef-client will gather the current system configuration. It will download the desired system configuration from the Chef-server and configure that node such that it adheres to the policy defined.
+
+
+4. Knife : Command line utility that acts as an interface between local chef-repo(on work station) and server.
+5. Cookbooks : A cookbook is a container to describe or to contain our configuration data. It contian the recipes. It can also include templates, files, custom resources etc. 
+4. Recipes : A Recipe is a configuration file that describes resources and their desired state. A recipe can install and configure software components, Manage files, Deploy Applications, Execute other recipes, etc.
+
+package "apache2" // 1st resouce is package and chef knows that it should be installed on the server. If the package dowsnt exist it will install it.
+ 
+template "/etc/apache2/apache.conf" do //Next resource is a template. The template will manage a file at /etc/apache2/apache.conf
+  source "apache2.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variable(:allow_override => "All")
+  notifies :reload, "service[apache2] //state of the apache2 if apache2.conf exist it knows that doesnt need to create that file. However chef needs to make sure that the file has proper contents. So it will generate a temporary file. It will use the source that we specified above apache2.conf.erb and then it will also use any variable content that we specified, i.e AllowOverride All. Once the temporary file is created, Chef will then compare the two files. If they are the same, chef will discard the temporary file and then move on to the next resource, then notifies line will be ignored. However if the two files are different. The chef-client will discard the version on the disk and place the temporary file into the proper location, i.e overwrite existing file. Whenever the overwrite happens a notification will be sent. Then it will tell apache to reload with new configs.
+end
+
+service "apache2" do //service should be enabled and start automatically
+  action [:enable,:start]
+  supports :reload => true
+end
+
+7. Roles : A way of identfying different types of servers. e.g LOadbalancer, app server, DB cache, DB , monitoring etc. Roles may include list of configs to be applied called as runlist. May include data attributes for configuring infra, i.e ports to listen on, list of apps to be deployed.
+8. Data bags : Stores of json data
+9. Attributes :
+10. Resources : Items that we sysadmins manipulate to manage complexity. i.e Networking, Files, Directories, Symlinks, Mounts, Registry key, Scripts, Users, Groups, Packages, Services Filesystems etc.
+Rerource represent a piece of the system and its desired state. e.g a package to be installed, A service to be running, A file to be generated, a cronjob to be configured, a user to be managed, etc.
+11. Ohai :
+12. Shef : 
+13. Environments : Environments can be development, test, staging and production. They may contain data attributes specific to an environment. Starts with single environment e.g default is 1st. Different names URL     for payment service, location for package repository, version of chef configs etc.
+14. Run List : The joining of a node to a set of policies is called as a run-list. The chef-client will download all the necessary components that make up the runlist.e.g recipe[npt::client], recipe[users], role[webserver].
+Run List is a collection of policies that a node should follow. CHef-client obtains the run-list from chef-server. chef-client ensures the node complies with the policy in the run-list.
+15. Search : Search for nodes with Roles, Find topology data, i.e IP addresses, hostnames, FQDNs.
+Searchable index about your infrastructure. e.g load balancer needs to know which application should i be sending requests to? Chef-client can ask Chef-server which application servers are available and which application server should i be sending load to. And in return the chef server can send a list of nodes and then the load balancer can figure out which one based on the hostname or IP address or Fully qualified domain name.
+16. Organization: Everyone has their own infra and wont manage anyone elses infra. Organization are independent tenants on Enterprize chef. So this could be different companies, business units or departments for managing.
+
+Consider you have to install an application. You 1st install and configure the application on a single server. It could be a developers laptop/workstation. In order to setup the application you have to perform various installation procedures i.e install packages, start services, manage database etc.
+After sometime you are going to make the Application available to a larger number of public than your laptop/workstation can handle and so will need to add a database server and will make this a multi tier application. So now we have one server handling the Application request and a separate server for database. 
+TO avaoid dataloss we will add another App server and Database server to keep the data redundant so that dataloss is avoided. 
+As time passes the load increases on the server with more number of people trying to access the server so we may need to add a scaling solution like a loadbalancer to the server. 
+As in how the application usage increase and the amount of users increases we will need to add more and more app servers and add more load balancers for them.
+As the database is not able to cope up with the high demand we need to add a DB cache to the existing solution, Making the infra even more complex.
+Chef is Infrastructure as a code. Using Chef you can programmatically provision and configure components. Treat like any other codebase. Reconstruct business from code repository, data backup, and baremetal resources.
+Chef ensures that each node complies to the policy. Policies are determined by the configurations included in each Node's run list.
+Reduce Management complexity through abstraction.
+Store the configuration of your infrastructure in a version control.
+Declarative interface to resources:
+You can define the policy in your Chef configuration. Your policy states what state each resource should be in, but not how to get there.
+Chef-client will pull the policy from the Chef-server and enforce the policy on the Node.
+Policy will state what needs to installed but now how to install. Chef is intelligent enough to figure that out.
+Chef will enforce the policy based on the resource that you specified.
+
+A node is a server which has chef-client. It will ask the chef-server what policies needs to be followed. All the policies are described in the chef-sever. Policies include, environments, roles. The joining of a node to the policies is called as a runlist. 
+
+
+
+
+Workstation Setup:
+Three major components : Server, Node, Workstation
+Select Chef-client, OS, Architechture, and chef version execute the installation file.
+It will install the following:
+- The Ruby language
+- knife - command line tool for admins
+- chef-client - Client application
+- Ohai - System profiler
+if you are using ruby already with rvm, rbenv or chruby then you may just install gem install chef to get started.
+
+Chef server
+- Install chef
+- Create user
+- Create Organization
+
+Knife : Knife is an interface between a local chef and the chef server. Knife lets you manage nodes, cookbooks, recipes, roles, stores of json data, including encrypted data, environments, cloud resources including provisioning. The installation of chef on management worstations, Searching of indexed data on chef server. You can even extend knife to use plugins for managing cloud resources. E.g knife-ec2, knife-rackspace, knife-vcloud plugins.
+
+cd chef-repo
+ls
+  .berkshelf
+  .chef
+  cookbooks
+  roles
+  .gitignore
+  Berksfile
+  chefignore
+  README.md
+  Vagrantfile
+
+cd .chef
+  knife.rb
+  org-validator.pem
+  user.pem
+
+vim knife.rb
+  # See http://docs.opscode.com/config_rb_knife.html for more information on knife configuration options
+
+  current_dir = File.dirname(__FILE__)
+  log_level                :info
+  log_location             STDOUT
+  node_name                "user"
+  client_key               "#{current_dir}/user.pem"
+  validation_client_name   "org-validator"
+  validation_key           "#{current_dir}/org-validator.pem"
+  chef_server_url          "https://api.opscode.com/organizations/user"
+  cache_type               'BasicFile'
+  cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
+  cookbook_path            ["#{current_dir}/../chef-repo/cookbooks"]
+
+
+Each recipe has resources in it. Th resources have : 
+- types -> package, template, service are the types of resources in the code
+- names -> apache2, /etc/apache2/apache.conf, apache2(service) are the names of the resources in the code
+- parameters ->   source "apache2.conf.erb"   owner "root"   group "root"   mode "0644"   supports :reload => true
+- action to put the resource on desired state -> action :install, action [:enable,:start]
+- send notification to other resources -> notifies :reload, "service[apache2]
+
+package "apache2" do
+  action :install
+end
+
+template "/etc/apache2/apache.conf" do 
+  source "apache2.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variable(:allow_override => "All")
+  notifies :reload, "service[apache2] 
+
+service "apache2" do 
+  action [:enable,:start]
+  supports :reload => true
+end
+
+
+
+Creating Environments
+Many a times you will want development environment and production environment to have little different configurations. e.g xdebug to be installed on dev but not on production. PayPal enabled on prod but not dev etc. Chef allows you to define different environments and also allows you to assign different nodes to a particular environment.
+
+create a directory called environments in the chef-repo. Add the following content to a file dev.rb in it.
+
+name "dev"
+description "The dev environment"
+
+create another file called prod.rb there and add the following content to it.
+
+name "prod"
+description "The prod environment"
+
+Upload the environment to the chef server.
+You can verify whether the environments are created in the chef server by logging in there.
+
+Creating roles:
+Roles provide a way to apply a group of recipes and attributes to all the nodes performing a particular function. e.g all the nodes which would work as db server can be assigned a db server roles and accordingly all the db server specific recipes can be applied to those nodes.
+
+Roles can be created in the following manner. Create a roles directory in the chef-repo if it does not exist. add a file base.rb there with the following content.
+
+name "base"
+description "Base role applied to all nodes."
+run_list(
+  "recipe[users::sysadmins]",
+  "recipe[sudo]",
+  "recipe[apt]",
+  "recipe[git]",
+  "recipe[build-essential]",
+  "recipe[vim]"
+) 
+override_attributes(
+  :authorization => {
+    :sudo => {
+      :users => ["ubuntu", "vagrant"],
+      :passwordless => true
+    }
+  }
+)
+
+Here the runlist method defines a list of recipes to be applied to all the nodes that have base role. The override_attributes method tells lets us override the default attributes used by the recipes in the list. Here we are overriding attributes used by the sudo cookbook so that "vagrant" and "ubuntu" users can run sudo without entering password.
+
+Next create another role Webserver by creating a file webserver.rb in the roles directory with the following content.
+
+name "webserver"
+description "Web server role"
+all_env = [ 
+  "role[base]",
+  "recipe[php]",
+  "recipe[php::module_mysql]",
+  "recipe[apache2]",
+  "recipe[apache2::mod_php5]",
+  "recipe[apache2::mod_rewrite]",
+]
+
+run_list(all_env)
+
+env_run_lists(
+  "_default" => all_env, 
+  "prod" => all_env,
+  #"dev" => all_env + ["recipe[php:module_xdebug]"],
+  "dev" => all_env,
+)
+
+Here it shows that a method env_run_lists method in a role to define different run lists for different environments. To simplify things we create an all_env array to define the common run list for all environments, and then merge in any additional run list items unique to each environment.
+
+Next create another role db_master.rb file with following contents:
+
+name "db_master"
+description "Master database server"
+
+all_env = [
+  "role[base]", 
+  "recipe[mysql::server]"
+] 
+
+run_list(all_env)
+
+env_run_lists(
+  "_default" => all_env,
+  "prod" => all_env,
+  "dev" => all_env,
+)
+
+upload the created roles to chef-server and also verify the same. Upload roles by:
+knife role from file roles/base.rb
+knife role from file roles/webserver.rb
+knife role from file roles/db_master.rbenv
+
+
+Setting up a user account for sys-admin
+Define a user account for yourself on all the nodes with admin privileges. This can be done by defining a data bag for the users cookbook, with attributes that describe the user account to create.
+
+mkdir -p data_bags/users
+vim data_bags/users/$USER.json
+
+Add the following to the $USER.json
+{
+  "id": "jkg",
+  "ssh_keys": "ssh-rsa ...LoNgGobBleDyGookSshPuBl1cKey... jason@grimesit.com",
+  "groups": [ "sysadmin", "dba", "devops" ],
+  "uid": 2001,
+  "shell": "\/bin\/bash"
+}
+
+Upload the data bag as well to the chef-server and verify
+knife data bag create users
+knife data bag from file users $USER.json 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
