@@ -1,0 +1,27 @@
+Scalable LAMP based architechture:
+traffice increases to the page during a particular season so scaling is needed
+Amazon has Elastic load balancer
+RDS managed MySQL server
+
+If CPU load goes above 60% increase
+CPU latency menmory is checked time and again
+Sacle up when more requests are encountered
+Lower threshold e.g for a period of 15 min i want to scale down
+Server could be Apache/Nginx/Cherokee
+Nginx is light weight and fast
+Cherokee is also light weight and fast too
+Memcache is Elastic Cache : EVery file stored has a TTL time to leave (may be) after that time teh files are deleted from the cache
+MySQL/Percona(hi-performace alternative for MySQL)
+MOnitoring tools Nagios and Zenso Sensu
+Sensu is scalable whenever u add a server it automatically gets added to the server
+LOgging
+ log stash
+ Syslog (Centralised logging at one place)
+Provisioning AMI / Cloud formation
+Automation Github and Chef
+Private clouds
+Openstacks
+Eucalyptus
+Vitualization
+-VmWare
+-VirtualBox
