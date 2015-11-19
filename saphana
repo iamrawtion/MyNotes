@@ -1,0 +1,30 @@
+SAP HANA is an In-memory database. This is very fast as compared to traditional databases(about 10 times faster).
+
+SAP HANA components:
+- SAP HANA DB
+-- The main component is the in-memory database itself. It refers to the core database.
+- SAP HANA Studio
+-- This refers to the modelling tool offered by SAP. 
+- SAP HANA Appliance
+-- SAP Hardware is specifically tuned for the particular software and tus called appliance. There are certified vendors who could supply hardware on whic SAP HANA can be installed. 
+- SAP HANA Application cloud
+-- The infrastruture is also available as a service on a SAP HANA cloud setup called as SAP HANA Application cloud. 
+
+SAP HANA leverages te following to make it a very fast in-memory database:
+- Low cost main memory
+- Multicore processors
+- Solid state drives
+
+SAP HANA can be used for anytype of applications:
+-- OLTP(Online Transction Processing System)
+-- OLAP(Online Analystical Processing System)
+
+SAP HANA provides query processing environment for Structured and Less structured Data
+
+SAP HANA is also ACID compaliance. Its a very important attribute of any DB. It guarantees reliability of db transasctions. 
+
+DataSize support : 1 TB RAM support, and it keeps data in a compressed format making it around 5 TB of uncompressed data. 
+in 2011 40 TB
+in 2012 100 TB
+
+
