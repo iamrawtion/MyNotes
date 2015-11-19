@@ -1,0 +1,19 @@
+Commands	Usage Syntax	Usage Example
+info	sudo docker info	sudo docker info
+pull	sudo docker pull boxname	sudo docker pull busybox
+run	sudo docker run boxname command-name	sudo docker run busybox /bin/echo Hello Docker
+logs	sudo docker logs container-id	sudo docker logs 82a7c6677e35
+help	 sudo docker help command-name	 sudo docker help attach
+stop	sudo docker stop container-id	sudo docker stop 82a7c6677e35
+restart	sudo docker restart container-id	sudo docker restart 82a7c6677e35
+remove	sudo docker stop container-id
+sudo docker rm container-id	sudo docker stop 82a7c6677e35
+sudo docker rm 82a7c6677e35
+commit	sudo docker commit container-id	sudo docker commit 027d51b16d9e
+image list	sudo docker images	sudo docker images
+search	sudo docker search image-name	sudo docker search ubuntu
+history	sudo docker history image-name	sudo docker history docker/jenkins
+push	sudo docker push image-name	sudo docker push docker/jenkins
+daemon	sudo docker -d	sudo docker -d
+build	docker build [options] path	sudo docker build –rm -t tag-name .
+attach		
