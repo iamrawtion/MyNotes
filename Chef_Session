@@ -1,0 +1,52 @@
+why chef important
+cutting edge tehnology
+IT has moved from back to front office
+continuous delivery
+customer cant wait... 6 months and so... they want it done in 30 min
+Application are now customer vehicles
+
+Devops culture distilled
+Personal Empowerment and accountability
+FAilure is a learning Oppurtunity
+	chef recipes are immediately changed
+Service Oriented Architechture
+	Cookbook are services. nginx cookbook brings up nginx in ur environment
+Additcted to DAta
+	Ohai takes a snapshot and that data is accessible to u snapshot of attributes in ur collection system
+Everything is code
+Tooling is culture institutionalised
+	tools we use and how we use them ddefines culture
+
+You and Your Future
+	Skills are increasingly the buisness
+	KNowledge is critical knowledge
+Jordan's email
+
+if any error while doing the knife client list - try and generate a new key for the organization
+ls /etc/chef
+knife client list
+knife node list
+
+What is a a cookbook
+resources are what u define serive, template etc
+use recipes to write ur resources
+cookbook is package f chef recipe
+could contain files, .recipes etc
+e.g apache can be a cookbook some other server could be a cookbook
+the problem : need a webserver to show gome page
+solution
+install apache start service
+write ur home page
+
+COokbook called APache
+go to the home directory
+recipes are where you define your resources
+default.rb is the default resource
+
+once you define what u want to install for e.g for ubuntu apt-get for centos for yum etc... you dont have to be bothered what and how it needs to be done it will install 
+ruby -c file_name.rb
+tells u if u have nay syntax error in the script
+
+
+
+
