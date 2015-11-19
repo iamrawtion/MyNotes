@@ -1,0 +1,23 @@
+To change the shell use the command : chsh
+it will prompt to login and ask you to enter the shell you want to use
+vim /etc/passwd is the password and user info and the shell name can also be modified into anything of your choice
+exec in your login file along with you shell name and path e.g /bin/zsh will also change your shell
+three properties of shell
+1. interactive
+2. customizable
+3. powerful
+csh : cshell is older
+bash : bourne against shell , was better an deasier to user and everyone usesone of the variants and zsh 
+zsh is cool -> learn all of its details
+ls : list
+cd : change directory
+with zsh you can have command completion and suggestion
+command history type up arrow to remember the old commands entered
+jobs : to check all the jobs running in background
+fg : to bring the background running process to foreground
+bg : to check all the processes in bckground
+
+Editors
+Vim : Powerful, high learning curve, universal, text editing, small, easy on fingers
+Emacs : Powerful, medium learning curve, feature rich, bigger, emacs pinky(ctrl+alt)
+
