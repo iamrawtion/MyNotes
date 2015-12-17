@@ -1,0 +1,81 @@
+Puppet:
+1. Unhappy with CFEngine, built puppet.
+2. Easier to use and configure than CFEngine
+3. Use Ruby like DSL
+4. Object oriented, declarative (Do this and this as it fits)
+5. DSL - Domain Specific Language, designed for specific task and cant be used for other tasks
+6. Pull based
+7. Only Config mgmt
+8. Code:
+   package: { “httpd”: 
+     ensure => “installed”,
+   } 
+   service: { “httpd”:
+     ensure => “running”,
+     enable => true,
+     require => Package[“httpd”],
+     subscribe => File[“httpd”],
+   }
+
+Chef:
+1. Unhapy with Puppet's determinitic by default ordering
+2. Ruby like DSL
+3. Designed to mix ops and dev - Infra as code
+4. Functional and Impertative (Do this then this...)
+5. DSL - Domain Specific Language, designed for specific task and cant be used for other tasks
+6. Pull based
+7. Only Config mgmt
+8. Code:
+   package “httpd”
+   template “httpd” do
+     source “httpd.conf.erb”
+     path “/etc/httpd/conf/httpd.conf” 
+     action :create 
+   end 
+   service “apache2” do 
+     action [:start, :enable] 
+   end 
+
+Salt:
+1. Designed for remote execution. Config mgmt added later
+2. Speed/flexibility/ease/scale
+3. Based on data/dsl
+4. Object oriented, declarative (Do this and this as it fits)
+5. Non DSL and DSL both
+6. Push and Pull based
+7. Only Config mgmt and remote execution
+8. Code:
+   httpd: 
+     pkg: 
+      - install 
+      service: 
+       - running 
+       - enable: True 
+       - requires: 
+       - file: httpd 
+     file: 
+       - managed 
+       - name: /etc/httpd/conf/httpd.conf 
+       - source: salt://httpd/httpd.conf # stored in /srv/salt/httpd/httpd.conf 
+       - requires: 
+       - pkg: httpd 
+
+Ansible:
+1. No agent required only sshd
+2. Designed for adhoc task execution and config mgmt
+3. Simplicity
+4. Functional and Impertative (Do this and this...)
+5. Non DSL
+6. Push based
+7. Only Config mgmt and remote execution
+8. Code:
+   hosts: all 
+   tasks: 
+    - name: 1. Install Apache 
+      yum: name=httpd state=present 
+    - name: 2. Copy Apache Config 
+      template: src=httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf 
+    - name: 3. Start Apache Service 
+      service: name=httpd state=running enabled=yes 
+
+
