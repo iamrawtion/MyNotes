@@ -70,18 +70,19 @@ Salt:
        - source: salt://httpd/httpd.conf # stored in /srv/salt/httpd/httpd.conf 
        - requires: 
        - pkg: httpd 
-- Not opensource
-- 
+- Opensource
+- Written in Python
+- CLI based
 
 Ansible:
-1. No agent required only sshd
-2. Designed for adhoc task execution and config mgmt
-3. Simplicity
-4. Functional and Impertative (Do this and this...)
-5. Non DSL
-6. Push based
-7. Only Config mgmt and remote execution
-8. Code:
+- No agent required only sshd
+- Designed for adhoc task execution and config mgmt
+- Simplicity
+- Functional and Impertative (Do this and this...)
+- Non DSL
+- Push based
+- Only Config mgmt and remote execution
+- Code:
    hosts: all 
    tasks: 
     - name: 1. Install Apache 
@@ -90,5 +91,6 @@ Ansible:
       template: src=httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf 
     - name: 3. Start Apache Service 
       service: name=httpd state=running enabled=yes 
-
-
+- Written in Python, easily customizable
+- Opensource
+- Cli and UI based (UI is paid)
