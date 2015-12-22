@@ -1,12 +1,12 @@
 Puppet:
-1. Unhappy with CFEngine, built puppet.
-2. Easier to use and configure than CFEngine
-3. Use Ruby like DSL
-4. Object oriented, declarative (Do this and this as it fits)
-5. DSL - Domain Specific Language, designed for specific task and cant be used for other tasks
-6. Pull based
-7. Only Config mgmt
-8. Code:
+- Unhappy with CFEngine, built puppet.
+- Easier to use and configure than CFEngine
+- Use Ruby like DSL
+- Object oriented, declarative (Do this and this as it fits)
+- DSL - Domain Specific Language, designed for specific task and cant be used for other tasks
+- Pull based
+- Only Config mgmt
+- Code:
    package: { “httpd”: 
      ensure => “installed”,
    } 
@@ -16,16 +16,21 @@ Puppet:
      require => Package[“httpd”],
      subscribe => File[“httpd”],
    }
+- Available both Opensource and Enterprise paid version
+- Written in Ruby.
+- Important Puppet features are only available in the paid version.
+- Has more than 2000 pre-built configs.
+- Supports multiple platforms
 
 Chef:
-1. Unhapy with Puppet's determinitic by default ordering
-2. Ruby like DSL
-3. Designed to mix ops and dev - Infra as code
-4. Functional and Impertative (Do this then this...)
-5. DSL - Domain Specific Language, designed for specific task and cant be used for other tasks
-6. Pull based
-7. Only Config mgmt
-8. Code:
+- Unhapy with Puppet's determinitic by default ordering
+- Ruby like DSL
+- Designed to mix ops and dev - Infra as code
+- Functional and Impertative (Do this then this...)
+- DSL - Domain Specific Language, designed for specific task and cant be used for other tasks
+- Pull based
+- Only Config mgmt
+- Code:
    package “httpd”
    template “httpd” do
      source “httpd.conf.erb”
@@ -35,16 +40,22 @@ Chef:
    service “apache2” do 
      action [:start, :enable] 
    end 
+- Available as opensource and Enterprise paid version
+- Written in Ruby and is easily customizable too.
+- Has around 800 modules available to be used free.
+- Installation is extremely quick and easy.
+- Supports features like text based searching and support for multiple environments.
+- Has a CLI, UI, testing mode, etc.
 
 Salt:
-1. Designed for remote execution. Config mgmt added later
-2. Speed/flexibility/ease/scale
-3. Based on data/dsl
-4. Object oriented, declarative (Do this and this as it fits)
-5. Non DSL and DSL both
-6. Push and Pull based
-7. Only Config mgmt and remote execution
-8. Code:
+- Designed for remote execution. Config mgmt added later
+- Speed/flexibility/ease/scale
+- Based on data/dsl
+- Object oriented, declarative (Do this and this as it fits)
+- Non DSL and DSL both
+- Push and Pull based
+- Only Config mgmt and remote execution
+- Code:
    httpd: 
      pkg: 
       - install 
@@ -59,6 +70,8 @@ Salt:
        - source: salt://httpd/httpd.conf # stored in /srv/salt/httpd/httpd.conf 
        - requires: 
        - pkg: httpd 
+- Not opensource
+- 
 
 Ansible:
 1. No agent required only sshd
